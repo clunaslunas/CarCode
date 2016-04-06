@@ -1,0 +1,12 @@
+The file was hw3a.txt
+The length of the file was 10000
+Used an array of list so no over flow, or collisions.
+This was printed to hw3output.txt
+The size of the first bucket: 915
+The size of the second bucket: 909
+The size of the third bucket: 906
+The size of the fourth bucket: 947
+The size of the fifth bucket: 894
+The size of the sixth bucket: 930
+The size of the seventh bucket: 896
+This was printed to hw3output.txt

@@ -5,12 +5,12 @@ import HashMap
 __author__ = "Carlos Luna"
 __date__ = "$Mar 4, 2016 6:20:08 AM$"
 
-states = HashMap.new()
+states = HashMap.new_bucks()
 HashMap.set(states, 'Oregon', 'OR')
 HashMap.set(states, 'Florida', 'FL')
 HashMap.set(states, 'California', 'CA')
 
-cities = HashMap.new()
+cities = HashMap.new_bucks()
 HashMap.set(cities, 'CA', 'San Francisco')
 HashMap.set(cities, 'MI', 'Detroit')
 HashMap.set(cities, 'FL', 'Jacksonville')
