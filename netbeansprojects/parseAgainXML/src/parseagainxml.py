@@ -70,28 +70,49 @@ def makeEdgeList(node):
 
 
 edges = makeEdgeList(edgeObj)
-x = []
-for items in edges:
-    x.append(edges.values())
-    if (20 , 4.61) in x:
-        x.index((20 , 4.61))
-        print("something")
-print(x)
-    
+#y = (edges[29][0])
+#head, weight = y
+#print ("This is the MOTHERFUCKING HEAD" , head)
+#print ("THIS IS THE MOFOING WEIGHT: ", weight)
+#for elements in y:
+#    print (type(elements))
+#x = []
+'''WE shall break up list elements ^^^^^^'''
+#for items in edges:
+#    x.append(edges.values())
+#    if (20 , 4.61) in x:
+#        x.index((20 , 4.61))
+#        print("something")
+#print(x)
+
 #print (edges)
-#vertices = makeVertList(vertex)
+vertices = makeVertList(vertex)
 #for k in vertices:
 #    #print ("Label: ", k)
 #    for tails in edges:
 #        if vertices[k] == tails:
-#            #print("Tail: ", tails)
-#            #print (edges[tails])
-#            x = edges[tails].values()
+#            print("Tail: ", tails)
+#            print (edges[tails])
+#            x = edges[tails]
 #            if (29, 7.1) in x:
 #                print("found at ", edges[tails])
 #                break
 #            else:
 #                print("not found")
+for items in edges:
+    print (items)
+    print(edges[items])
+for k in vertices:
+    tail = []
+    if k == "13":
+        tail = vertices["13"]
+        headOne = edges[tail][0][0]
+        headTwo = edges[tail][1][0]
+        print(type(headOne), headOne, headTwo)
+        print(edges[headTwo])
+        print("Found at", edges[headTwo][0][0],"cost: ", edges[headTwo][0][1])
+            
+        
 
             
     
