@@ -11,13 +11,13 @@ __date__ = "$Apr 5, 2016 1:06:45 PM$"
 import unittest
 
 
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, False)
-
-
-if __name__ == '__main__':
-    unittest.main()
+#class MyTestCase(unittest.TestCase):
+#    def test_something(self):
+#        self.assertEqual(True, False)
+#
+#
+#if __name__ == '__main__':
+#    unittest.main()
 
 #E[i] = getElementByTagName("edge")
 #Dictionary will work fine for vertex
@@ -104,34 +104,37 @@ def fill_list(newRoot):
 #        print (emptList[len(emptList) - 1].tail)
         #print (root.items())
     return emptList
+
 def fill_list_two(newRoot):
     emptList = []
     for Vertex in newRoot.iter('Vertex'):
         emptList.append(make_vertex(Vertex))
-        #print (emptList[len(emptList) - 1].vertexId + " + " + emptList[len(emptList) - 1].label)
+        print (emptList[len(emptList) - 1].vertexId + " + " + emptList[len(emptList) - 1].label)
         #print (root.items())
         #print (edge)
     return emptList
+
 '''Contains all my edge nodes'''
 list_of_edges = fill_list(root)
 #print(list_of_edges)
 '''Contains all my vertex nodes'''
 list_of_vertices = fill_list_two(root)
+#print(list_of_vertices)
 
 for edge in list_of_edges:
-    #list_of_vertices[int(edge.head)].adjacent.append({"h": edge.head, "t": edge.tail, "w": edge.cost})
-#    print (list_of_vertices[int(edge.head)].adjacent[len(list_of_vertices[int(edge.head)].adjacent) - 1])
+    list_of_vertices[int(edge.head)].adjacent.append({"h": edge.head, "t": edge.tail, "w": edge.cost})
+    #print (list_of_vertices[int(edge.head)].adjacent[len(list_of_vertices[int(edge.head)].adjacent) - 1])
     list_of_vertices[int(edge.tail)].adjacent.append({"h": edge.head, "t": edge.tail, "w": edge.cost})
 
-for vert in list_of_vertices:
-    print(vert.label)
-    for val in vert.adjacent:
-        print (val["h"], val["t"], val["w"])
+#for vert in list_of_vertices:
+#    print(vert.label)
+#    for val in vert.adjacent:
+#        print (val["h"], val["t"], val["w"])
 
-loop_edge(list_of_edges, list_of_vertices)
-x = get_vertex_by_label("17")
+#loop_edge(list_of_edges, list_of_vertices)
+#x = get_vertex_by_label("17")
 #print("PRINT MY VERTEX: ", type(x))
-y = get_vertex_by_Id(x.vertexId)
+#y = get_vertex_by_Id(x.vertexId)
 #print(type(y))
 #print (x == y)
 #print(list_of_vertices)
