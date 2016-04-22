@@ -99,9 +99,9 @@ vertices = makeVertList(vertex)
 #                break
 #            else:
 #                print("not found")
-for items in edges:
-    print ("Keys", items)
-    print(edges[items])
+#for items in edges:
+#    print ("Keys", items)
+#    print(edges[items])
 #for k in vertices:
 #    tail = []
 #    if k == "13":
@@ -116,25 +116,33 @@ for items in edges:
 #for edge in edges:
 #    print(edge.v1, edge.v2, edge.weight)
 
-def findPath(start, end):
-    tails = []
-    begin = vertices[start]
-    stop = vertices[end]
-    print ("Begin: ", begin)
-    print ("Stop: ", stop)
-    for label in vertices:
-        if label == start:
-            tails = vertices[start]
-            startTail = edges[tails]
-            print (tails)
-            for v in startTail:
-                if v == stop:
-                    print ("found the end!")
-                else:
-                    startTail = edges[v[0]]
-            
-findPath("13", "17")
-    
+#def findPath(start, end):
+#    tails = []
+#    begin = vertices[start]
+#    stop = vertices[end]
+#    print ("Begin: ", begin)
+#    print ("Stop: ", stop)
+#    for label in vertices:
+#        if label == start:
+#            tails = vertices[start]
+#            startTail = edges[tails]
+#            print (tails)
+#            for v in startTail:
+#                if v == stop:
+#                    print ("found the end!")
+#                else:
+#                    startTail = edges[v[0]]
+#            
+#findPath("13", "17")
+
+label = input("Enter a label to start from 0 to 29: ")
+end = input("Enter a label to end at: ")
+stop = (vertices[end])
+print ("Stop at: ", type(stop))
+graph = (edges[vertices[label]])
+for items in graph:
+    print ("Head: ", type(items[0]))
+    print ("Weight: ", items[1])
 
 
 
