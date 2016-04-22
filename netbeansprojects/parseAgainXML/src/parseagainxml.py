@@ -100,24 +100,41 @@ vertices = makeVertList(vertex)
 #            else:
 #                print("not found")
 for items in edges:
-    print (items)
+    print ("Keys", items)
     print(edges[items])
-for k in vertices:
-    tail = []
-    if k == "13":
-        tail = vertices["13"]
-        headOne = edges[tail][0][0]
-        headTwo = edges[tail][1][0]
-        print(type(headOne), headOne, headTwo)
-        print(edges[headTwo])
-        print("Found at", edges[headTwo][0][0],"cost: ", edges[headTwo][0][1])
-            
-        
-
+#for k in vertices:
+#    tail = []
+#    if k == "13":
+#        tail = vertices["13"]
+#        headOne = edges[tail][0][0]
+#        headTwo = edges[tail][1][0]
+#        print(type(headOne), headOne, headTwo)
+#        print(edges[headTwo])
+#        print("Found at", edges[headTwo][0][0],"cost: ", edges[headTwo][0][1])
             
     
 #for edge in edges:
 #    print(edge.v1, edge.v2, edge.weight)
+
+def findPath(start, end):
+    tails = []
+    begin = vertices[start]
+    stop = vertices[end]
+    print ("Begin: ", begin)
+    print ("Stop: ", stop)
+    for label in vertices:
+        if label == start:
+            tails = vertices[start]
+            startTail = edges[tails]
+            print (tails)
+            for v in startTail:
+                if v == stop:
+                    print ("found the end!")
+                else:
+                    startTail = edges[v[0]]
+            
+findPath("13", "17")
+    
 
 
 
