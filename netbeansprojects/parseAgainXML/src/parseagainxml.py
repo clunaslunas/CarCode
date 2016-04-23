@@ -135,20 +135,44 @@ vertices = makeVertList(vertex)
 #            
 #findPath("13", "17")
 
-label = input("Enter a label to start from 0 to 29: ")
-end = input("Enter a label to end at: ")
-stop = (vertices[end])
-print ("Stop at: ", stop)
-graph = (edges[vertices[label]])
-print(graph)
-for items in graph:
-    print ("Head: ",items[0])
-    print ("Weight: ", items[1])
-    print("New Tail: ", items[0], " : ", edges[items[0]])
-    newTail = edges[items[0]]
-    for i in newTail:
-        print(i[0])
-    
+        
 
+
+def find_path(edgeDictionary, vertexDictionary, path = []):
+    label = input("Enter a label to start from 0 to 29: ")
+    end = input("Enter a label to end at: ")
+    start = vertexDictionary[label]
+    stop = (vertexDictionary[end])
+    cost = 0
+    print ("Start at: ", start)
+    print ("Stop at: ", stop, type(stop))
+    graph = (edgeDictionary[vertexDictionary[label]])
+    print("Currently working in : ", vertexDictionary[label], graph )
+    path.append(start)
+    print (path)
+    for items in graph:
+        if items[0] == stop:
+            path.append(items[0])
+        else:
+            break
+    for keys in vertexDictionary:
+        if vertexDictionary[keys] in edges:
+            print (keys," : ", vertexDictionary[keys])
+            print(edgeDictionary[vertexDictionary[keys]])
+        
+    
+    
+    
+    for items in graph:
+        newTails, weight = items
+        print (weight)
+        print ("Check tails ", newTails)
+        newGraph = (edgeDictionary[items[0]])
+        for i in newGraph:
+            print (i[0])
+            if i[0] == stop:
+                print("Found it at ", i[0])
+                
+find_path(edges, vertices)
 
 
