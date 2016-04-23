@@ -138,11 +138,17 @@ vertices = makeVertList(vertex)
 label = input("Enter a label to start from 0 to 29: ")
 end = input("Enter a label to end at: ")
 stop = (vertices[end])
-print ("Stop at: ", type(stop))
+print ("Stop at: ", stop)
 graph = (edges[vertices[label]])
+print(graph)
 for items in graph:
-    print ("Head: ", type(items[0]))
+    print ("Head: ",items[0])
     print ("Weight: ", items[1])
+    print("New Tail: ", items[0], " : ", edges[items[0]])
+    newTail = edges[items[0]]
+    for i in newTail:
+        print(i[0])
+    
 
 
 
