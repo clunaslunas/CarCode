@@ -134,45 +134,63 @@ vertices = makeVertList(vertex)
 #                    startTail = edges[v[0]]
 #            
 #findPath("13", "17")
-
-        
-
-
 def find_path(edgeDictionary, vertexDictionary, path = []):
-    label = input("Enter a label to start from 0 to 29: ")
-    end = input("Enter a label to end at: ")
+#    label = input("Enter a label to start from 0 to 29: ")
+#    end = input("Enter a label to end at: ")
+    label = "13"
+    end = "15"
     start = vertexDictionary[label]
     stop = (vertexDictionary[end])
     cost = 0
-    print ("Start at: ", start)
-    print ("Stop at: ", stop, type(stop))
+    print ("Start at vertex: ", start)
+    print ("Stop at vertex: ", stop, type(stop))
     graph = (edgeDictionary[vertexDictionary[label]])
     print("Currently working in : ", vertexDictionary[label], graph )
+    print("The Graph: ", graph)
     path.append(start)
     print (path)
-    for items in graph:
-        if items[0] == stop:
-            path.append(items[0])
-        else:
-            break
-    for keys in vertexDictionary:
-        if vertexDictionary[keys] in edges:
-            print (keys," : ", vertexDictionary[keys])
-            print(edgeDictionary[vertexDictionary[keys]])
+    
+    x = iterGraph(graph, path)
+    print ("New vertices", x)
+    for i in x:
+        if i != stop:
+            newGraph = (edgeDictionary[i])
+        for items in newGraph:
+            print ("Checking", edgeDictionary[items[0]])
+            if items[0] == stop:
+                print(items[0])
+                print("Found ", stop)
+                break
+
+#    for items in graph:
+#        newTails, weight = items
+##        print (weight)
+#        print ("Check tails ", newTails)
+#        newGraph = (edgeDictionary[newTails])
+#        for i in newGraph:
+#            if newTails == stop:
+#                print("Found it at ", i[0])
+#                path.append(i[0])
+#                print ("The path: ",path)
+#                break
+#            else:
+#                print("Didn't find a path")
         
+#    for keys in vertexDictionary:
+#        if vertexDictionary[keys] in edges:
+#            print (keys," : ", vertexDictionary[keys])
+#            print(edgeDictionary[vertexDictionary[keys]])
     
-    
-    
+def iterGraph(graph, list):
+    nTail = []
+    weight = []
     for items in graph:
-        newTails, weight = items
-        print (weight)
-        print ("Check tails ", newTails)
-        newGraph = (edgeDictionary[items[0]])
-        for i in newGraph:
-            print (i[0])
-            if i[0] == stop:
-                print("Found it at ", i[0])
-                
+        nTail.append(items[0])
+        weight.append(items[1])
+#        print("Tail: ",nTail,"Weight: ", weight)
+        list.append(nTail)
+    return (nTail)
+
 find_path(edges, vertices)
 
 
