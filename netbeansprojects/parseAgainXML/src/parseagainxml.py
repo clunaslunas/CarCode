@@ -92,25 +92,25 @@ for i in E:
     print(i)
 #for elements in E:
 #    print("Vertex ID: ",elements[0],"Adjacent nodes: ", elements[1:])
-def findPath(adjVerts, start, stop, path = []):
-    path.append(start)
-    print(path)
-    if start == stop:
-        return path
-    for i in adjVerts:
-        if i == start:
-            return None
-        for node in adjVerts[start]:
-            if node not in path:
-                newPath = findPath(adjVerts, node, stop, path)
-                
-                if newpath: return newpath
-                
-        return None
-    
-                    
-            
-findPath(E,9, 21)
+#def findPath(adjVerts, start, stop, path = []):
+#    path.append(start)
+#    print(path)
+#    if start == stop:
+#        return path
+#    for i in adjVerts:
+#        if i == start:
+#            return None
+#        for node in adjVerts[start]:
+#            if node not in path:
+#                newPath = findPath(adjVerts, node, stop, path)
+#                
+#                if newpath: return newpath
+#                
+#        return None
+#    
+#                    
+#            
+#findPath(E,9, 21)
             
     
     
