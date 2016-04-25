@@ -3,158 +3,89 @@
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
+import parseagainxml
 
 __author__ = "Carlos Luna"
 __date__ = "$Apr 23, 2016 9:07:38 AM$"
 
-from xml.dom import minidom
-
 class Vertex:
-    def __init__(self, vertexId, label, cost=0):
-        self.vertexId = vertexId
-        self.adjacent = []
-        self.previous = self
-        self.label = label
-        self.cost = cost
-        self.edges = []
-
-    def addEdge(self,e):
-        self.edges.append(e)
-
-    def getEdges(self):
-        return self.edges
+    def __init__(self, node):
+        self.id = node
+        self.adjacent = {}
 
     def __str__(self):
-        return "Vertex:\n    Label: " + str(self.label) +  \
-               "\n    Cost: %1.2f"%self.cost + \
-               "\n    Previous: " + str(self.previous.label)
+        return str(self.id) + ' adjacent: ' + str([x.id for x in self.adjacent])
 
-    def __lt__(self,other):
-        if type(self) != type(other):
-            raise Exception("Unordered")
+    def add_neighbor(self, neighbor, weight=0):
+        self.adjacent[neighbor] = weight
 
-        return int(self.label) < int(other.label)
+    def get_connections(self):
+        return self.adjacent.keys()  
 
+    def get_id(self):
+        return self.id
 
-class Edge:
-    def __init__(self, v1, v2, weight=0):
-        self.v1 = v1
-        self.v2 = v2
-        self.weight = weight
+    def get_weight(self, neighbor):
+        return self.adjacent[neighbor]
 
-    def getEndpoints(self):
-        return (self.v1, self.v2)
+class Graph:
+    def __init__(self):
+        self.vert_dict = {}
+        self.num_vertices = 0
 
-def gatherVertices(xmldoc):
-    print("*** Gather Vertices *** ")
-    print("VID Label")
-    graph = xmldoc.getElementsByTagName("Graph")[0]
-    vertices = graph.getElementsByTagName("Vertices")[0].getElementsByTagName("Vertex")
+    def __iter__(self):
+        return iter(self.vert_dict.values())
 
-    vertexDict = {}
-    for vertex in vertices:
-        vertexId = int(vertex.attributes["vertexId"].value)
-        vertexLabel = vertex.attributes["label"].value
-        v = Vertex(vertexId,vertexLabel)
-        vertexDict[vertexId] = v
-        print(vertexId, vertexLabel)
-               
-    return vertexDict
+    def add_vertex(self, node):
+        self.num_vertices = self.num_vertices + 1
+        new_vertex = Vertex(node)
+        self.vert_dict[node] = new_vertex
+        return new_vertex
 
+    def get_vertex(self, n):
+        if n in self.vert_dict:
+            return self.vert_dict[n]
+        else:
+            return None
 
-def gatherEdges(xmldoc, vertexDict):
-    totalCost = 0
+    def add_edge(self, frm, to, cost = 0):
+        if frm not in self.vert_dict:
+            self.add_vertex(frm)
+        if to not in self.vert_dict:
+            self.add_vertex(to)
 
-    print("*** Gather Edges *** ")
-    print("Head Tail")
+        self.vert_dict[frm].add_neighbor(self.vert_dict[to], cost)
+        self.vert_dict[to].add_neighbor(self.vert_dict[frm], cost)
 
-    graph = xmldoc.getElementsByTagName("Graph")[0]
-    edges = graph.getElementsByTagName("Edges")[0].getElementsByTagName("Edge")
-    edgeList = []
+    def get_vertices(self):
+        return self.vert_dict.keys()
 
-    for edge in edges:
-        x = int(edge.attributes["head"].value)
-        y = int(edge.attributes["tail"].value)
-        print(x, '  ',y)
+if __name__ == '__main__':
+    
+    g = Graph()
 
-        anEdge = Edge(x,y)
-        if "weight" in edge.attributes:
-            anEdge.weight = float(edge.attributes["weight"].value)
-            totalCost += anEdge.weight
-        edgeList.append(anEdge)
+    g.add_vertex('a')
+    g.add_vertex('b')
+    g.add_vertex('c')
+    g.add_vertex('d')
+    g.add_vertex('e')
+    g.add_vertex('f')
 
-        vertexDict[x].addEdge(anEdge)
-        vertexDict[y].addEdge(anEdge)
+    g.add_edge('a', 'b', 7)  
+    g.add_edge('a', 'c', 9)
+    g.add_edge('a', 'f', 14)
+    g.add_edge('b', 'c', 10)
+    g.add_edge('b', 'd', 15)
+    g.add_edge('c', 'd', 11)
+    g.add_edge('c', 'f', 2)
+    g.add_edge('d', 'e', 6)
+    g.add_edge('e', 'f', 9)
 
-        for vId in vertexDict:
-            v = vertexDict[vId]
-            v.cost = totalCost + 1
-            
+    for v in g:
+        for w in v.get_connections():
+            vid = v.get_id()
+            wid = w.get_id()
+            print ('( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w)))
 
-    return edgeList
-
-
-def lowestCost(unvisited):
-    minVert = unvisited.pop()
-
-    unvisited.add(minVert)
-    minCost = minVert.cost
-
-    for v in unvisited:
-        if v.cost < minCost:
-            minCost = v.cost
-            minVert = v
-
-    unvisited.remove(minVert)
-    return minVert
-
-
-def main():
-    xmldoc = minidom.parse("graph.xml")
-    vertices = gatherVertices(xmldoc)
-    edges = gatherEdges(xmldoc, vertices)
-
-    unvisited = set()
-
-    for vId in vertices:
-        v = vertices[vId]
-        if v.label == '0':
-            unvisited.add(v)
-            v.cost = 0
-            v.prev = v
-
-    visited = set()
-
-    while len(unvisited) != 0: 
-
-        current = lowestCost(unvisited)
-        visited.add(current)
-
-        for e in current.getEdges():
-            x, y = e.getEndpoints()
-
-            if x == current.vertexId:
-                otherVertId = y
-            else:
-                otherVertId = x
-
-            ov = vertices[otherVertId]
-
-            if not ov in visited:
-                newcost = current.cost + e.weight
-                if newcost < ov.cost:
-                    ov.cost = newcost
-                    ov.previous = current
-                    unvisited.add(ov)
-
-    lst = list(vertices.values())
-
-    lst.sort()
-
-    for v in lst:
-        print(str(v))
-        print()
-
-
-if __name__ == "__main__":
-    main()
+    for v in g:
+        print ('g.vert_dict[%s]=%s' %(v.get_id(), g.vert_dict[v.get_id()]))
