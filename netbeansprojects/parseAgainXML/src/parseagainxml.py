@@ -88,8 +88,65 @@ def makeAdj(edgeList,vertices, list):
     return sorted(list)
 
 E = makeAdj(edges,V,e)
-for i in E:
-    print(i)
+print(type(E))
+#for i in E:
+#    if i[0] == 9:
+#        print("found it", i)
+#        searchList = i[1]
+#        print("Search items: ",searchList)
+#        for items in searchList:
+#            print ("New starting points: ",items[0])#for i in E:
+#    if i[0] == 9:
+#        print("found it", i)
+#        searchList = i[1]
+#        print("Search items: ",searchList)
+#        for items in searchList:
+#            print ("New starting points: ",items[0])
+def searchPath(adjList, start, stop, path = []):
+    path.append(start)
+    print("Start at: ",start)
+    print("Stop at: ",stop)
+    while start != stop:
+        for elements in adjList:
+            print (elements)
+            if elements[0] == start:
+                print ("Found it", elements)
+                srchLst = elements[1]
+                print ("Time to search: ",srchLst)
+                for i in srchLst:
+                    start = i[0]
+                    print ("New Start: ",start)
+                    searchPath(adjList, start, stop,)
+    print ("All done ", path)
+    return path
+    
+    
+    
+        
+#    if start == stop:
+#        print("doing something")
+#        return path
+#    else:
+#        print("start does not equal stop so search the adjacent list")
+#        print(adjList)
+#        for i in adjList:
+#            print ("Elements in adjacent list",i[0])
+#            print("searching the adjacent list...")
+#            if i[0] == start:
+#                print(i[0], " is equal to ", start)
+#                searchList = i[1]
+#                for items in searchList:
+#                    start = items[0]
+#                    searchPath(adjList, start, stop)
+#            else:
+#                return path
+
+ans = searchPath(E, 9, 21)
+print(ans)
+            
+'''take item at index 0 and set to start'''
+'''store items at index 1 in a list called searchList'''
+'''take items in searchList at index 0, and set them as my new starting point'''
 #for elements in E:
 #    print("Vertex ID: ",elements[0],"Adjacent nodes: ", elements[1:])
 #def findPath(adjVerts, start, stop, path = []):
