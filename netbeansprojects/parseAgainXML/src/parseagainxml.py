@@ -2,9 +2,6 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor
 from xml.dom import minidom
-from collections import defaultdict
-import sys
-import pprint
 __author__ = "Carlos"
 __date__ = "$Apr 18, 2016 7:50:21 AM$"
 
@@ -88,25 +85,9 @@ def makeAdj(edgeList,vertices, list):
     return sorted(list)
 
 E = makeAdj(edges,V,e)
-
-def searchPath(adjList, start, stop, path = []):
-    path.append(start)
-    print("Start at: ",start)
-    print("Stop at: ",stop)
-    srchLst = []
-    print ("Path of nodes: ",path)
-    while start != stop:
-        
-        for elements in adjList:
-            if elements[0] == start:
-                srchLst.append(elements[1])
-    
-        for i in srchLst:
-            start = i[0][0]
-            print ("New Start: ",start)
-            searchPath(adjList, start, stop,)
-             
-        return path
+for i in E:
+    if i[0] == 9:
+        print (i[1][1][0])
 
 def labelToVert(vertDict):
     
@@ -114,11 +95,6 @@ def labelToVert(vertDict):
     vertexID = vertDict[label]
     
     return vertexID
-
-start = labelToVert(vertices)
-stop = labelToVert(vertices)
-
-searchPath(E, start, stop)
 '''take item at index 0 and set to start'''
 '''store items at index 1 in a list called searchList'''
 '''take items in searchList at index 0, and set them as my new starting point'''
