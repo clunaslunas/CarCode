@@ -106,19 +106,22 @@ def searchPath(adjList, start, stop, path = []):
     path.append(start)
     print("Start at: ",start)
     print("Stop at: ",stop)
+    srchLst = []
     while start != stop:
         for elements in adjList:
-            print (elements)
+    #            print (elements)
             if elements[0] == start:
-                print ("Found it", elements)
-                srchLst = elements[1]
-                print ("Time to search: ",srchLst)
-                for i in srchLst:
-                    start = i[0]
-                    print ("New Start: ",start)
-                    searchPath(adjList, start, stop,)
-    print ("All done ", path)
-    return path
+    #            print ("Found it", elements)
+                srchLst.append(elements[1])
+    #            print ("Time to search: ",srchLst)
+    #            print(srchLst)
+        for i in srchLst:
+            start = i[0][0]
+            print ("New Start: ",start)
+            searchPath(adjList, start, stop,)
+    #        break
+        print ("All done ", path)
+        return path
     
     
     
