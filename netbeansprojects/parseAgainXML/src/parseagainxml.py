@@ -88,90 +88,41 @@ def makeAdj(edgeList,vertices, list):
     return sorted(list)
 
 E = makeAdj(edges,V,e)
-print(type(E))
-#for i in E:
-#    if i[0] == 9:
-#        print("found it", i)
-#        searchList = i[1]
-#        print("Search items: ",searchList)
-#        for items in searchList:
-#            print ("New starting points: ",items[0])#for i in E:
-#    if i[0] == 9:
-#        print("found it", i)
-#        searchList = i[1]
-#        print("Search items: ",searchList)
-#        for items in searchList:
-#            print ("New starting points: ",items[0])
+
 def searchPath(adjList, start, stop, path = []):
     path.append(start)
     print("Start at: ",start)
     print("Stop at: ",stop)
     srchLst = []
+    print ("Path of nodes: ",path)
     while start != stop:
+        
         for elements in adjList:
-    #            print (elements)
             if elements[0] == start:
-    #            print ("Found it", elements)
                 srchLst.append(elements[1])
-    #            print ("Time to search: ",srchLst)
-    #            print(srchLst)
+    
         for i in srchLst:
             start = i[0][0]
             print ("New Start: ",start)
             searchPath(adjList, start, stop,)
-    #        break
-        print ("All done ", path)
+             
         return path
-    
-    
-    
-        
-#    if start == stop:
-#        print("doing something")
-#        return path
-#    else:
-#        print("start does not equal stop so search the adjacent list")
-#        print(adjList)
-#        for i in adjList:
-#            print ("Elements in adjacent list",i[0])
-#            print("searching the adjacent list...")
-#            if i[0] == start:
-#                print(i[0], " is equal to ", start)
-#                searchList = i[1]
-#                for items in searchList:
-#                    start = items[0]
-#                    searchPath(adjList, start, stop)
-#            else:
-#                return path
 
-ans = searchPath(E, 9, 21)
-print(ans)
-            
+def labelToVert(vertDict):
+    
+    label = input("Please enter a label from 0 to 29: ")
+    vertexID = vertDict[label]
+    
+    return vertexID
+
+start = labelToVert(vertices)
+stop = labelToVert(vertices)
+
+searchPath(E, start, stop)
 '''take item at index 0 and set to start'''
 '''store items at index 1 in a list called searchList'''
 '''take items in searchList at index 0, and set them as my new starting point'''
-#for elements in E:
-#    print("Vertex ID: ",elements[0],"Adjacent nodes: ", elements[1:])
-#def findPath(adjVerts, start, stop, path = []):
-#    path.append(start)
-#    print(path)
-#    if start == stop:
-#        return path
-#    for i in adjVerts:
-#        if i == start:
-#            return None
-#        for node in adjVerts[start]:
-#            if node not in path:
-#                newPath = findPath(adjVerts, node, stop, path)
-#                
-#                if newpath: return newpath
-#                
-#        return None
-#    
-#                    
-#            
-#findPath(E,9, 21)
-            
+
     
     
     
