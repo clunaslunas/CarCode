@@ -77,17 +77,51 @@ def makeV(vertList, list):
         list.append(vertList[items])
     return sorted(list)
 V = makeV(vertices, v)
-def makeAdj(edgeList,vertices, list):
+
+def makeWeightAdj(edgeList,vertices, list):
     for i in vertices:
         if i in edges:
             list.append((i, edges[i]))
     
     return sorted(list)
 
-E = makeAdj(edges,V,e)
-for i in E:
-    if i[0] == 9:
-        print (i[1][1][0])
+E = makeWeightAdj(edges,V,e)
+
+def makeGraphDict(edgeList,vertices, grphDict = {}, nodeDict = {}):
+    listOfVert = []
+    for i in vertices:
+        if i in edges: 
+            print(edges)
+            for items in edges[i]:
+                print(i,items)
+                
+                
+            
+makeGraphDict(edges, V)
+def makeNodeAdj(edgeList, vertices, nodeDict={}):
+#    edgeDictT.setdefault(tail, []).append((head, weight))
+    for i in vertices:
+        if i in edges:
+            for items in edges[i]:
+                nodeDict.setdefault(i, []).append(items[0])
+    return(nodeDict)
+            
+nodeList = []            
+N = makeNodeAdj(edges, V)
+    
+def findPath(graph, start, end, path =[]):
+    path = path + [start]
+    if start == end:
+        return path
+    if not start in graph.keys():
+        return None 
+    for node in graph[start]:
+        if node not in path:
+            newPath = findPath(graph, node, end, path)
+            if newPath: return newPath
+    return None
+
+
 
 def labelToVert(vertDict):
     
@@ -95,6 +129,43 @@ def labelToVert(vertDict):
     vertexID = vertDict[label]
     
     return vertexID
+
+#start = labelToVert(vertices)
+#stop = labelToVert(vertices)
+#path = findPath(N, start, stop)
+
+#def dijkstra(graph, src, dest, visited = [], distances = {}, predecessors = {}):
+#    if src not in graph:
+#        raise TypeError("The root of the shortest path tree cannot be found")
+#    if dest not in graph:
+#        raise TypeError("The target of the shortest path cannot be found in graph")
+#    if src == dest:
+#        path = []
+#        pred = dest
+#        while pred != None:
+#            path.append(pred)
+#            pred=predecessors.get(pred,None)
+#        print("Shortest path: " + str(path) + " cost : " + str(distances[dest]))
+#    else:
+#        if not visited:
+#            distances[src] = 0
+#            
+#        for neighbor in graph[src]:
+#            if neighbor not in visited:
+#                newDistance = distances[src] + graph[src][neighbor]
+#                if newDistance < distances.get(neighbor,float('inf')):
+#                    distances[neighbor] = newDistance
+#                    predecessors[neighbor] = src
+#        visited.append(src)
+#        
+#        unvisited = {}
+#        for k in graph:
+#            if k not in visited:
+#                unvisited[k] = distances.get(k,float,('inf'))
+#        x = min(unvisited, key = unvisited.get)
+#        dijkstra(graph,x,dest,visited,distances,predecessors) 
+#        
+#dijkstra(E, 9, 29)
 '''take item at index 0 and set to start'''
 '''store items at index 1 in a list called searchList'''
 '''take items in searchList at index 0, and set them as my new starting point'''
