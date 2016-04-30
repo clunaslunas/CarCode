@@ -2,10 +2,13 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor
 from xml.dom import minidom
+from priodict import priorityDictionary
+from collections import defaultdict, deque
+
 __author__ = "Carlos"
 __date__ = "$Apr 18, 2016 7:50:21 AM$"
-
-xmlDoc = minidom.parse("graph.xml")
+xmlPath = input("Please enter the name of your XML file: ")
+xmlDoc = minidom.parse(xmlPath)
 vertices = xmlDoc.getElementsByTagName("Vertices")[0]
 vertex = vertices.getElementsByTagName("Vertex")
 #print(type(vertex))
@@ -31,7 +34,6 @@ class Edge:
     def __lt__(self,other):
         return self.weight < other.weight
     
-
 def makeVertList(nodeList):
     vertLabVal = {}    
     listOfVerts = []
@@ -47,9 +49,6 @@ def makeVertList(nodeList):
         listOfVerts.append(Vertex(vertIdVal, labelVal))
         #print(vertLabVal)
     return vertLabVal
-
-
-
 
 def makeEdgeList(node):
     edgeDictT = {}
@@ -67,16 +66,11 @@ def makeEdgeList(node):
 #        print(listOfEdges.v1, listOfEdges.v2, listOfEdges.weight)
     return edgeDictT
 
-
-edges = makeEdgeList(edgeObj)
-vertices = makeVertList(vertex)         
-v = []
-e = []
 def makeV(vertList, list):
     for items in vertList:
         list.append(vertList[items])
     return sorted(list)
-V = makeV(vertices, v)
+
 
 def makeWeightAdj(edgeList,vertices, list):
     for i in vertices:
@@ -85,19 +79,6 @@ def makeWeightAdj(edgeList,vertices, list):
     
     return sorted(list)
 
-E = makeWeightAdj(edges,V,e)
-
-def makeGraphDict(edgeList,vertices, grphDict = {}, nodeDict = {}):
-    listOfVert = []
-    for i in vertices:
-        if i in edges: 
-            print(edges)
-            for items in edges[i]:
-                print(i,items)
-                
-                
-            
-makeGraphDict(edges, V)
 def makeNodeAdj(edgeList, vertices, nodeDict={}):
 #    edgeDictT.setdefault(tail, []).append((head, weight))
     for i in vertices:
@@ -107,8 +88,10 @@ def makeNodeAdj(edgeList, vertices, nodeDict={}):
     return(nodeDict)
             
 nodeList = []            
-N = makeNodeAdj(edges, V)
-    
+
+'''Citation: https://www.python.org/doc/essays/graphs/'''
+'''Modified to fit my data struture'''
+
 def findPath(graph, start, end, path =[]):
     path = path + [start]
     if start == end:
@@ -121,8 +104,6 @@ def findPath(graph, start, end, path =[]):
             if newPath: return newPath
     return None
 
-
-
 def labelToVert(vertDict):
     
     label = input("Please enter a label from 0 to 29: ")
@@ -130,46 +111,95 @@ def labelToVert(vertDict):
     
     return vertexID
 
-#start = labelToVert(vertices)
-#stop = labelToVert(vertices)
-#path = findPath(N, start, stop)
-
-#def dijkstra(graph, src, dest, visited = [], distances = {}, predecessors = {}):
-#    if src not in graph:
-#        raise TypeError("The root of the shortest path tree cannot be found")
-#    if dest not in graph:
-#        raise TypeError("The target of the shortest path cannot be found in graph")
-#    if src == dest:
-#        path = []
-#        pred = dest
-#        while pred != None:
-#            path.append(pred)
-#            pred=predecessors.get(pred,None)
-#        print("Shortest path: " + str(path) + " cost : " + str(distances[dest]))
-#    else:
-#        if not visited:
-#            distances[src] = 0
-#            
-#        for neighbor in graph[src]:
-#            if neighbor not in visited:
-#                newDistance = distances[src] + graph[src][neighbor]
-#                if newDistance < distances.get(neighbor,float('inf')):
-#                    distances[neighbor] = newDistance
-#                    predecessors[neighbor] = src
-#        visited.append(src)
-#        
-#        unvisited = {}
-#        for k in graph:
-#            if k not in visited:
-#                unvisited[k] = distances.get(k,float,('inf'))
-#        x = min(unvisited, key = unvisited.get)
-#        dijkstra(graph,x,dest,visited,distances,predecessors) 
-#        
-#dijkstra(E, 9, 29)
 '''take item at index 0 and set to start'''
 '''store items at index 1 in a list called searchList'''
 '''take items in searchList at index 0, and set them as my new starting point'''
 
+class Graph(object):
+    def __init__(self):
+        self.nodes = set()
+        self.edges = defaultdict(list)
+        self.distances = {}
+
+    def add_node(self, value):
+        self.nodes.add(value)
+
+    def add_edge(self, from_node, to_node, distance):
+        self.edges[from_node].append(to_node)
+        self.edges[to_node].append(from_node)
+        self.distances[(from_node, to_node)] = distance
+
+'''Citation: https://gist.github.com/57uff3r/99b4064cbbcbf6a73963 '''
+def dijkstra(graph, initial):
+    visited = {initial: 0}
+    path = {}
+
+    nodes = set(graph.nodes)
+
+    while nodes:
+        min_node = None
+        for node in nodes:
+            if node in visited:
+                if min_node is None:
+                    min_node = node
+                elif visited[node] < visited[min_node]:
+                    min_node = node
+        if min_node is None:
+            break
+
+        nodes.remove(min_node)
+        current_weight = visited[min_node]
+
+        for edge in graph.edges[min_node]:
+            try:
+                weight = current_weight + graph.distances[(min_node, edge)]
+            except:
+                continue
+            if edge not in visited or weight < visited[edge]:
+                visited[edge] = weight
+                path[edge] = min_node
+
+    return visited, path
+
+
+def shortest_path(graph, origin, destination):
+    visited, paths = dijkstra(graph, origin)
+    full_path = deque()
+    _destination = paths[destination]
+
+    while _destination != origin:
+        full_path.appendleft(_destination)
+        _destination = paths[_destination]
+
+    full_path.appendleft(origin)
+    full_path.append(destination)
+
+    return visited[destination], list(full_path)
+
+if __name__ == '__main__':
     
+    edges = makeEdgeList(edgeObj)
+    vertices = makeVertList(vertex)       
+    v = []
+    e = []
+    V = makeV(vertices, v)
+    N = makeNodeAdj(edges, V)
+    E = makeWeightAdj(edges,V,e)
+    graph = Graph()
+
+    for i in V: 
+        graph.add_node(i)
+        if i in edges:
+            print("Vertex: ", i)
+            print ("Edges: ",edges[i])
+            for items in edges[i]:
+                graph.add_edge(i, items[0], items[1])
+            
+            
+start = labelToVert(vertices)
+stop = labelToVert(vertices)
+print("General path: ",findPath(N, start, stop))
+print("Dijkstra's shortest path: ", shortest_path(graph,start,stop))
+
     
     
