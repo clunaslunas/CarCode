@@ -1,4 +1,0 @@
-def blown():
-    blown()
-
-blown()
