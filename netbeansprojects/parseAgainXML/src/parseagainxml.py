@@ -2,7 +2,6 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor
 from xml.dom import minidom
-from priodict import priorityDictionary
 from collections import defaultdict, deque
 
 __author__ = "Carlos"
