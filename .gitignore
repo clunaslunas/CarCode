@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 /NetBeansProjects/parseAgainXML/nbproject/private/
 <<<<<<< HEAD
 /NetBeansProjects/QuadFormula/nbproject/private/
 =======
 /NetBeansProjects/HomeworkFive/nbproject/private/
 >>>>>>> 4b16c48f4313811e0f0764c9454763a414a8f680
+=======
+.idea
+node_modules
+npm-debug.log
+>>>>>>> 9883211d97df2f089e43bf08c8eec676834a1a65

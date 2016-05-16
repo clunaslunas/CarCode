@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# CarCode
-=======
 angularjs-up-and-running
 ========================
 
@@ -32,4 +29,3 @@ python -m SimpleHTTPServer
 connect browser to http://localhost:8000
 example directory is served
 
->>>>>>> 9883211d97df2f089e43bf08c8eec676834a1a65
